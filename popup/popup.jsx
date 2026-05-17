@@ -12,6 +12,7 @@ function Popup() {
         folders={folders}
         onAdd={addFolder}
         onEdit={renameFolder}
+        onDelete={deleteFolder}
       />
     </>
   );

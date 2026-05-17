@@ -2,10 +2,12 @@ import { useState } from 'react';
 import Grab from '../assets/grab-dots.svg?react'
 import Pencil from '../assets/pencil.svg?react';
 import Trash from '../assets/trash.svg?react';
+import DeleteConfirmationModal from './DeleteConfirmationModal';
 
-const FolderItem = ({ id, name, onEdit }) => {
+const FolderItem = ({ id, name, onEdit, onDelete }) => {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(name);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   function handleKeyDown(e) {
     if (e.key === 'Enter') handleSave();
@@ -17,6 +19,11 @@ const FolderItem = ({ id, name, onEdit }) => {
       onEdit?.(id, value);
       setEditing(false);
     }
+  }
+
+  function handleDelete() {
+    onDelete?.(id);
+    setConfirmingDelete(false);
   }
 
   return (
@@ -52,11 +59,18 @@ const FolderItem = ({ id, name, onEdit }) => {
               </>
             : <>              
                 <Pencil onClick={() => setEditing(true)} />
-                <Trash />
+                <Trash onClick={() => setConfirmingDelete(true)}/>
               </>
           }
         </div>
       </div>
+      {confirmingDelete && (
+        <DeleteConfirmationModal 
+          folderName={name}
+          onConfirm={handleDelete}
+          onCancel={() => setConfirmingDelete(false)}
+        />
+      )}
     </>
   )
 }

@@ -3,7 +3,7 @@ import './FolderList.css'
 import Folder from '../assets/folder.svg?react'
 import FolderItem from '../components/FolderItem';
 
-const FolderList = ({ folders, onAdd, onEdit }) => {
+const FolderList = ({ folders, onAdd, onEdit, onDelete }) => {
   const [adding, setAdding] = useState(false);
   const [newName, setNewName] = useState('');
 
@@ -38,6 +38,7 @@ const FolderList = ({ folders, onAdd, onEdit }) => {
             id={folder.id}
             name={folder.name}
             onEdit={onEdit}
+            onDelete={onDelete}
           />
         ))}
         {adding
