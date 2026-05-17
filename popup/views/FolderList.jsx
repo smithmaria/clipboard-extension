@@ -2,7 +2,7 @@ import './FolderList.css'
 import Folder from '../assets/folder.svg?react'
 import FolderItem from '../components/FolderItem';
 
-const FolderList = () => {
+const FolderList = ({ folders }) => {
   return (
     <>
       <div className='popup-header'>
@@ -12,8 +12,12 @@ const FolderList = () => {
         </div>
       </div>
       <div className='folder-list'>
-        <FolderItem name='Math'/>
-        <FolderItem name='Spanish'/>
+        {folders.map((folder) => (
+          <FolderItem
+            key={folder.id}
+            name={folder.name}
+          />
+        ))}
         <div className='add-folder'>
           + Add new folder
         </div>
