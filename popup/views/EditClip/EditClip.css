@@ -1,0 +1,50 @@
+.input-container {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-left: 8px;
+    margin-bottom: 4px;
+  }
+}
+
+.clip-textarea {
+  box-sizing: border-box;
+  padding: 4px 8px;
+  border: 1px solid var(--light-gray);
+  border-radius: 10px;
+  resize: none;
+  max-height: 400px;
+
+  font-size: 1rem;
+  font-family: var(--font-family);
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.edit-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  
+  button {
+    border-radius: 12px;
+    padding: 6px 0;
+    width: 5rem;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: .2s;
+  }
+
+  button:hover {
+    cursor: pointer;
+    filter: brightness(.9);
+  }
+
+  button:last-child {
+    background-color: var(--pink);
+  }
+}

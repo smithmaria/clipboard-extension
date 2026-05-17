@@ -19,11 +19,6 @@
   input {
     margin: -5px 0 -5px -5px;
     padding-left: 4px;
-    border: 1px solid var(--light-gray);
-    border-radius: 8px;
-
-    font-size: 1rem;
-    font-family: var(--font-family);
   }
 
   input:focus-visible {
