@@ -2,12 +2,14 @@ import { useState } from 'react';
 import './FolderList.css'
 import Folder from '../../assets/folder.svg?react'
 import FolderItem from './components/FolderItem';
+import { useNav } from '../../hooks/useNav';
 
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy, arrayMove } from
 '@dnd-kit/sortable';
 
-const FolderList = ({ folders, onSelect, onAdd, onEdit, onReorder, onDelete }) => {
+const FolderList = ({ folders, onAdd, onEdit, onReorder, onDelete }) => {
+  const { setNav } = useNav();
   const [adding, setAdding] = useState(false);
   const [newName, setNewName] = useState('');
 
@@ -59,7 +61,7 @@ const FolderList = ({ folders, onSelect, onAdd, onEdit, onReorder, onDelete }) =
                 key={folder.id}
                 id={folder.id}
                 name={folder.name}
-                onSelect={onSelect}
+                onSelect={(folderId) => setNav({ view: 'folderClips', folderId, clipId: null })}
                 onEdit={onEdit}
                 onDelete={onDelete}
               />

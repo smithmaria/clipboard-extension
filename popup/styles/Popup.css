@@ -115,6 +115,11 @@ body.dragging * {
   }
 }
 
-.folder-return:hover {
+.header-return {
+  fill: var(--dark-gray);
+}
+
+.header-return:hover {
   cursor: pointer;
+  filter: brightness(.9);
 }

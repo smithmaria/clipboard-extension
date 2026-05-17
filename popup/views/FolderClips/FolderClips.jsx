@@ -2,23 +2,27 @@ import './FolderClips.css'
 import Folder from '../../assets/folder.svg?react'
 import Plus from '../../assets/plus.svg?react'
 import Pencil from '../../assets/pencil.svg?react'
-
 import LayoutToggle from './components/LayoutToggle'
 
-const FolderClips = ({ folder, onReturn }) => {
-  function handleReturn () {
-    onReturn();
-  }
+import { useNav } from '../../hooks/useNav'
+
+const FolderClips = ({ folder }) => {
+  const { setNav } = useNav();
 
   return (
     <>
       <div className='popup-header'>
         <div className='header-title'>
-          <Folder onClick={handleReturn} className='folder-return' />
+          <Folder 
+            onClick={() => {setNav({ view: 'folderList', folderId: null, clipId: null })}} 
+            className='header-return' 
+          />
           <h1>{folder.name}</h1>
         </div>
         <div className='clip-action-container'>
-          <div className='clip-action plus'>
+          <div 
+            className='clip-action plus' 
+            onClick={() => setNav({ view: 'createClip', folderId: folder.id, clipId: null })}>
             <Plus />
           </div>
           <div className='clip-action pencil'>

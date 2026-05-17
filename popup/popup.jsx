@@ -1,38 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './styles/Popup.css'
 import FolderList from './views/FolderList/FolderList';
 import FolderClips from './views/FolderClips/FolderClips';
+import EditClip from './views/EditClip/EditClip';
+
 import { useFolders } from './hooks/useFolders';
+import { NavProvider, useNav } from './hooks/useNav';
 
-const DEFAULT_NAV = { view: 'folderList', folderId: null, clipId: null };
-
-function Popup() {
+function PopupContent() {
+  const { nav } = useNav();
   const { folders, addFolder, renameFolder, reorderFolders, deleteFolder } = useFolders();
-  const [nav, setNav] = useState(DEFAULT_NAV);
-
-  useEffect(() => {
-    chrome.storage.session.get('nav', (result) => {
-      setNav(result.nav ?? DEFAULT_NAV);
-    });
-  }, []);
-
-  useEffect(() => {
-    chrome.storage.session.set({ nav });
-  }, [nav]);
 
   const currentFolder = folders.find(f => f.id === nav.folderId);
 
   switch (nav.view) {
     case 'folderClips':
-      return <FolderClips
-        folder={currentFolder}
-        onReturn={() => setNav(DEFAULT_NAV)}
-      />;
+      return <FolderClips folder={currentFolder} />;
+    case 'createClip':
+      return <EditClip isCreate={true} />;
     default:
       return (
         <FolderList
           folders={folders}
-          onSelect={(folderId) => setNav({ view: 'folderClips', folderId, clipId: null })}
           onAdd={addFolder}
           onEdit={renameFolder}
           onReorder={reorderFolders}
@@ -40,6 +29,14 @@ function Popup() {
         />
       );
   }
+}
+
+function Popup() {
+  return (
+    <NavProvider>
+      <PopupContent />
+    </NavProvider>
+  );
 }
 
 export default Popup;
