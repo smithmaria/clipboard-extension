@@ -45,7 +45,7 @@ const FolderItem = ({ id, name, onEdit, onDelete }) => {
                 onChange={(e) => setValue(e.target.value)}
                 onKeyDown={handleKeyDown}
               />
-            : value
+            : <span className='folder-name-text'>{value}</span>
           }
         </div>
         <div className='folder-actions'>

@@ -32,6 +32,8 @@
 }
 
 .folder-name {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: .3rem;
@@ -45,13 +47,21 @@
     outline: none !important;
     cursor: grab;
   }
+
+  input {
+    width: 100%;
+  }
+}
+
+.folder-name-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .folder-actions {
-  display: flex;
-  gap: .5rem;
-
   svg {
+    margin-left: .5rem;
     width: 1.6rem;
     height: 1.6rem;
     stroke: var(--dark-gray);
@@ -64,6 +74,7 @@
   }
 
   button {
+    margin-left: .5rem;
     padding: 3px 10px;
     border-radius: 7px;
     transition: .2s;
