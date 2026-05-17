@@ -18,6 +18,9 @@ const EditClip = ({ isCreate }) => {
   useEffect(() => {
     if (textareaRef.current) {
       const el = textareaRef.current;
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
+      el.style.overflow = el.scrollHeight >= 400 ? 'auto' : 'hidden';
       el.selectionStart = el.selectionEnd = el.value.length;
     }
   }, []);
