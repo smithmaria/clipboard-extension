@@ -36,6 +36,7 @@ const EditClip = ({ isCreate }) => {
       <div className='input-container'>
         <label>Clip</label>
         <textarea 
+          autoFocus
           className='clip-textarea' 
           placeholder='Clip' 
           rows={1}
