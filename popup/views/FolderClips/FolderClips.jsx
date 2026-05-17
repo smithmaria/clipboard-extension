@@ -5,31 +5,33 @@ import Pencil from '../../assets/pencil.svg?react'
 import LayoutToggle from './components/LayoutToggle'
 import LongClip from './components/LongClip'
 
+import { useState } from 'react'
 import { useNav } from '../../hooks/useNav'
 import { useFolders } from '../../hooks/useFolders'
 
 const FolderClips = () => {
   const { nav, setNav } = useNav();
-  const { folders } = useFolders();
+  const { folders, deleteClip } = useFolders();
   const folder = folders.find(f => f.id === nav.folderId);
+  const [deleting, setDeleting] = useState(false);
 
   return (
     <>
       <div className='popup-header'>
         <div className='header-title'>
-          <Folder 
-            onClick={() => {setNav({ view: 'folderList', folderId: null, clipId: null })}} 
-            className='header-return' 
+          <Folder
+            onClick={() => {setNav({ view: 'folderList', folderId: null, clipId: null })}}
+            className='header-return'
           />
           <h1>{folder.name}</h1>
         </div>
         <div className='clip-action-container'>
-          <div 
-            className='clip-action plus' 
-            onClick={() => setNav({ view: 'createClip', folderId: folder.id, clipId: null })}>
+          <div
+            className={`clip-action plus ${deleting ? 'disabled' : ''}`}
+            onClick={() => !deleting && setNav({ view: 'createClip', folderId: folder.id, clipId: null })}>
             <Plus />
           </div>
-          <div className='clip-action pencil'>
+          <div className={`clip-action pencil ${deleting ? 'active' : ''}`} onClick={() => setDeleting(d => !d)}>
             <Pencil />
           </div>
           <LayoutToggle />
@@ -37,10 +39,12 @@ const FolderClips = () => {
       </div>
       <div className='long-clip-list'>
         {folder.clips.map((clip) =>
-          <LongClip 
-            key={clip.id} 
-            content={clip.content} 
-            onClick={() => navigator.clipboard.writeText(clip.content)} 
+          <LongClip
+            key={clip.id}
+            content={clip.content}
+            deleting={deleting}
+            onDelete={() => deleteClip(folder.id, clip.id)}
+            onClick={() => !deleting && navigator.clipboard.writeText(clip.content)}
           />
         )}
       </div>
