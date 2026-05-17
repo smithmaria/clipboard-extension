@@ -3,6 +3,7 @@ import Folder from '../../assets/folder.svg?react'
 import Plus from '../../assets/plus.svg?react'
 import Pencil from '../../assets/pencil.svg?react'
 import LayoutToggle from './components/LayoutToggle'
+import LongClip from './components/LongClip'
 
 import { useNav } from '../../hooks/useNav'
 import { useFolders } from '../../hooks/useFolders'
@@ -34,8 +35,10 @@ const FolderClips = () => {
           <LayoutToggle />
         </div>
       </div>
-      <div>
-        {folder.clips.map((clip) => <div>{clip.content}</div>)}
+      <div className='long-clip-list'>
+        {folder.clips.map((clip) => 
+          <LongClip content={clip.content} />
+        )}
       </div>
     </>
   )
