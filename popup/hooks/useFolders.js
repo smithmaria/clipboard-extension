@@ -4,17 +4,19 @@ import { getStorage, setStorage } from "./useStorage";
 
 export function useFolders() {
   const [folders, setFolders] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   // Load folders on mount
   useEffect(() => {
     getStorage('folders').then((result) => {
       setFolders(result.folders ?? []);
+      setLoaded(true);
     })
   }, []);
 
   // Keep chrome storage updated when folders changes
   useEffect(() => {
-    if (folders.length > 0) {
+    if (loaded) {
       setStorage({ folders });
     }
   }, [folders])
