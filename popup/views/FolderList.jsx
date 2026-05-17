@@ -47,11 +47,11 @@ const FolderList = ({ folders, onAdd, onEdit }) => {
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder='Folder name'
+                placeholder='Name'
               />
               <div className='folder-actions'>
                 <button onClick={handleCancel}>Cancel</button>
-                <button onClick={handleSave}>Save</button>
+                <button className='folder-save' onClick={handleSave}>Save</button>
               </div>
             </div>
           : <div className='add-folder' onClick={() => setAdding(true)}>

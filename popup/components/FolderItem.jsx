@@ -37,10 +37,16 @@ const FolderItem = ({ id, name, onEdit }) => {
         <div className='folder-actions'>
           {editing
             ? <>
-                <button onClick={() => { setValue(name); setEditing(false); }}>
+                <button
+                  className='folder-cancel'
+                  onClick={() => { setValue(name); setEditing(false); }}
+                >
                     Cancel
                 </button>
-                <button onClick={() => handleSave()}>
+                <button 
+                  className='folder-save'
+                  onClick={() => handleSave()}
+                >
                   Save
                 </button>
               </>

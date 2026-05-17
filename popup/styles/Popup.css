@@ -4,6 +4,7 @@
   --bg-gray: #f9f9fa;
   --light-gray: #d9d9d9;
   --dark-gray: #737373;
+  --pink: #d77c9b;
 
   --font-family: "Poppins", sans-serif;
 }
@@ -11,7 +12,7 @@
 body {
   padding: .7rem 1rem;
   width: 400px;
-  font-family: var(--font-family);
+  font-family: var(--font-family) !important;
   font-size: 1rem;
   background-color: var(--bg-gray);
 }
@@ -20,6 +21,11 @@ h1 {
   margin: 0;
   font-size: 1.2rem;
   font-weight: 500;
+}
+
+button {
+  border: none;
+  font-family: var(--font-family);
 }
 
 .popup-header {
