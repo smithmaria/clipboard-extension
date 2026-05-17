@@ -5,9 +5,12 @@ import Pencil from '../../assets/pencil.svg?react'
 import LayoutToggle from './components/LayoutToggle'
 
 import { useNav } from '../../hooks/useNav'
+import { useFolders } from '../../hooks/useFolders'
 
-const FolderClips = ({ folder }) => {
-  const { setNav } = useNav();
+const FolderClips = () => {
+  const { nav, setNav } = useNav();
+  const { folders } = useFolders();
+  const folder = folders.find(f => f.id === nav.folderId);
 
   return (
     <>

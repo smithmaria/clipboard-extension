@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { getStorage, setStorage } from "./useStorage";
 
-export function useFolders() {
+const FoldersContext = createContext(null);
+
+export function FoldersProvider({ children }) {
   const [folders, setFolders] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
-  // Load folders on mount
   useEffect(() => {
     getStorage('folders').then((result) => {
       setFolders(result.folders ?? []);
@@ -14,21 +15,17 @@ export function useFolders() {
     })
   }, []);
 
-  // Keep chrome storage updated when folders changes
   useEffect(() => {
-    if (loaded) {
-      setStorage({ folders });
-    }
-  }, [folders])
+    if (loaded) setStorage({ folders });
+  }, [folders]);
 
-  
   // FOLDER ACTIONS
   function addFolder(name) {
     setFolders((prev) => [...prev, { id: uuidv4(), name, clips: [] }]);
   }
 
   function renameFolder(folderId, newName) {
-    setFolders((prev) => 
+    setFolders((prev) =>
       prev.map((f) => (f.id === folderId ? { ...f, name: newName } : f))
     );
   }
@@ -41,11 +38,10 @@ export function useFolders() {
     setFolders((prev) => prev.filter((f) => f.id !== folderId));
   }
 
-  
   // CLIP ACTIONS
   function addClip(folderId, content, isLatex = false) {
     const newClip = { id: uuidv4(), content, isLatex, createdAt: Date.now() };
-    setFolders((prev) => 
+    setFolders((prev) =>
       prev.map((f) =>
         f.id === folderId ? { ...f, clips: [...f.clips, newClip] } : f
       )
@@ -56,12 +52,7 @@ export function useFolders() {
     setFolders((prev) =>
       prev.map((f) =>
         f.id === folderId
-          ? {
-              ...f,
-              clips: f.clips.map((c) =>
-                c.id === clipId ? { ...c, ...updates } : c
-              ),
-            }
+          ? { ...f, clips: f.clips.map((c) => (c.id === clipId ? { ...c, ...updates } : c)) }
           : f
       )
     );
@@ -77,9 +68,17 @@ export function useFolders() {
     );
   }
 
-  return {
-    folders,
-    addFolder, renameFolder, reorderFolders, deleteFolder,
-    addClip, updateClip, deleteClip,
-  };
+  return (
+    <FoldersContext.Provider value={{
+      folders,
+      addFolder, renameFolder, reorderFolders, deleteFolder,
+      addClip, updateClip, deleteClip,
+    }}>
+      {children}
+    </FoldersContext.Provider>
+  );
+}
+
+export function useFolders() {
+  return useContext(FoldersContext);
 }

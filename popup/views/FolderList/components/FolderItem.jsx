@@ -3,11 +3,13 @@ import Grab from '../../../assets/grab-dots.svg?react'
 import Pencil from '../../../assets/pencil.svg?react';
 import Trash from '../../../assets/trash.svg?react';
 import DeleteConfirmationModal from '../../../components/DeleteConfirmationModal';
+import { useFolders } from '../../../hooks/useFolders';
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-const FolderItem = ({ id, name, onSelect, onEdit, onDelete }) => {
+const FolderItem = ({ id, name, onSelect }) => {
+  const { renameFolder, deleteFolder } = useFolders();
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(name);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
@@ -23,13 +25,13 @@ const FolderItem = ({ id, name, onSelect, onEdit, onDelete }) => {
 
   function handleSave() {
     if(value.trim()) {
-      onEdit?.(id, value);
+      renameFolder(id, value);
       setEditing(false);
     }
   }
 
   function handleDelete() {
-    onDelete?.(id);
+    deleteFolder(id);
     setConfirmingDelete(false);
   }
 
