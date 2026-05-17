@@ -1,11 +1,12 @@
 import React from 'react';
+import './styles/Popup.css'
+import FolderList from './views/FolderList';
 
 function Popup() {
   return (
-    <div>
-      <h1>Clipboard Manager</h1>
-      <p>Clips will go here!</p>
-    </div>
+    <>
+      <FolderList />
+    </>
   );
 }
 
