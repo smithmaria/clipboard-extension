@@ -44,7 +44,10 @@ const FolderClips = () => {
             content={clip.content}
             deleting={deleting}
             onDelete={() => deleteClip(folder.id, clip.id)}
-            onClick={() => !deleting && navigator.clipboard.writeText(clip.content)}
+            onClick={() => deleting
+              ? setNav({ view: 'editClip', folderId: folder.id, clipId: clip.id })
+              : navigator.clipboard.writeText(clip.content)
+            }
           />
         )}
       </div>

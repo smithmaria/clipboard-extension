@@ -6,9 +6,13 @@ import { useState } from 'react'
 
 const EditClip = ({ isCreate }) => {
   const { nav, setNav } = useNav();
-  const { addClip } = useFolders();
+  const { folders, addClip, updateClip } = useFolders();
 
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(existingClip?.content ?? '');
+
+  const existingClip = !isCreate
+    ? folders.find(f => f.id === nav.folderId)?.clips.find(c => c.id === nav.clipId)
+    : null;
 
   function handleSave () {
     if (!content.trim()) return;
@@ -35,10 +39,11 @@ const EditClip = ({ isCreate }) => {
       </div>
       <div className='input-container'>
         <label>Clip</label>
-        <textarea 
+        <textarea
           autoFocus
-          className='clip-textarea' 
-          placeholder='Clip' 
+          className='clip-textarea'
+          placeholder='Clip'
+          value={content}
           rows={1}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {

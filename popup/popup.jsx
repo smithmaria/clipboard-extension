@@ -15,6 +15,8 @@ function PopupContent() {
       return <FolderClips />;
     case 'createClip':
       return <EditClip isCreate={true} />;
+    case 'editClip':
+      return <EditClip isCreate={false} />;
     default:
       return <FolderList />;
   }
