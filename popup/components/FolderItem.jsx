@@ -7,7 +7,7 @@ import DeleteConfirmationModal from './DeleteConfirmationModal';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-const FolderItem = ({ id, name, onEdit, onDelete }) => {
+const FolderItem = ({ id, name, onSelect, onEdit, onDelete }) => {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(name);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
@@ -35,7 +35,12 @@ const FolderItem = ({ id, name, onEdit, onDelete }) => {
 
   return (
     <>
-      <div className={`folder-item ${isDragging ? 'dragging' : ''}`} ref={setNodeRef} style={style}>
+      <div
+        className={`folder-item ${isDragging ? 'dragging' : ''}`} 
+        ref={setNodeRef}
+        onClick={() => !editing && onSelect?.(id)}
+        style={style}
+      >
         <div className='folder-name'>
           <Grab {...attributes} {...listeners} />
           {editing
@@ -65,8 +70,8 @@ const FolderItem = ({ id, name, onEdit, onDelete }) => {
                 </button>
               </>
             : <>              
-                <Pencil onClick={() => setEditing(true)} />
-                <Trash onClick={() => setConfirmingDelete(true)}/>
+                <Pencil onClick={(e) => { e.stopPropagation(); setEditing(true); }} />
+                <Trash onClick={(e) => { e.stopPropagation(); setConfirmingDelete(true); }}/>
               </>
           }
         </div>

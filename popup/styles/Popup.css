@@ -112,3 +112,7 @@ body.dragging * {
     height: 1.5rem;
   }
 }
+
+.folder-return:hover {
+  cursor: pointer;
+}
