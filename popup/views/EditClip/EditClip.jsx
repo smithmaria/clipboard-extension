@@ -39,6 +39,12 @@ const EditClip = ({ isCreate }) => {
           className='clip-textarea' 
           placeholder='Clip' 
           rows={1}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              handleSave();
+            }
+          }}
           onChange={(e) => {
             setContent(e.target.value);
             e.target.style.height = 'auto';

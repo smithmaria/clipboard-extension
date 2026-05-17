@@ -35,7 +35,7 @@ const FolderClips = () => {
         </div>
       </div>
       <div>
-        {/* {folder.clips.map((clip) => <div>{clip.content}</div>)} */}
+        {folder.clips.map((clip) => <div>{clip.content}</div>)}
       </div>
     </>
   )
