@@ -5,6 +5,8 @@
   --light-gray: #d9d9d9;
   --dark-gray: #737373;
   --pink: #d77c9b;
+  --orange: #ecb564;
+  --blue: #91adc2;
 
   --font-family: "Poppins", sans-serif;
 }
@@ -32,6 +34,11 @@ h2 {
 button {
   border: none;
   font-family: var(--font-family);
+}
+
+svg {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 body.dragging * {
@@ -101,15 +108,10 @@ body.dragging * {
 
   margin-bottom: .8rem;
 
-  div{
+  .header-title {
     display: flex;
     align-items: center;
     gap: 1rem;
-  }
-
-  svg {
-    width: 1.5rem;
-    height: 1.5rem;
   }
 }
 

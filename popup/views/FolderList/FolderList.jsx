@@ -39,7 +39,7 @@ const FolderList = ({ folders, onSelect, onAdd, onEdit, onReorder, onDelete }) =
   return (
     <>
       <div className='popup-header'>
-        <div>
+        <div className='header-title'>
           <Folder />
           <h1>Folders</h1>
         </div>
