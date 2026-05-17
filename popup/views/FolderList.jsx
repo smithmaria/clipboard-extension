@@ -3,9 +3,22 @@ import './FolderList.css'
 import Folder from '../assets/folder.svg?react'
 import FolderItem from '../components/FolderItem';
 
-const FolderList = ({ folders, onAdd, onEdit, onDelete }) => {
+import { DndContext, closestCenter } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy, arrayMove } from
+'@dnd-kit/sortable';
+
+const FolderList = ({ folders, onAdd, onEdit, onReorder, onDelete }) => {
   const [adding, setAdding] = useState(false);
   const [newName, setNewName] = useState('');
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (active.id !== over.id) {
+      const oldIndex = folders.findIndex(f => f.id === active.id);
+      const newIndex = folders.findIndex(f => f.id === over.id);
+      onReorder(arrayMove(folders, oldIndex, newIndex));
+    }
+  }
 
   function handleSave() {
     if (newName.trim()) onAdd?.(newName.trim());
@@ -32,15 +45,26 @@ const FolderList = ({ folders, onAdd, onEdit, onDelete }) => {
         </div>
       </div>
       <div className='folder-list'>
-        {folders.map((folder) => (
-          <FolderItem
-            key={folder.id}
-            id={folder.id}
-            name={folder.name}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        ))}
+        <DndContext
+          collisionDetection={closestCenter}
+          onDragStart={() => document.body.classList.add('dragging')}
+          onDragEnd={(event) => { document.body.classList.remove('dragging'); handleDragEnd(event); }}
+        >
+          <SortableContext 
+            items={folders.map(f => f.id)} 
+            strategy={verticalListSortingStrategy}
+          >
+            {folders.map((folder) => (
+              <FolderItem
+                key={folder.id}
+                id={folder.id}
+                name={folder.name}
+                onEdit={onEdit}
+                onDelete={onDelete}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
         {adding
           ? <div className='folder-item'>
               <input

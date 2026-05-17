@@ -34,6 +34,10 @@ button {
   font-family: var(--font-family);
 }
 
+body.dragging * {
+  cursor: grabbing !important;
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;

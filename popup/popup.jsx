@@ -4,7 +4,7 @@ import FolderList from './views/FolderList';
 import { useFolders } from './hooks/useFolders';
 
 function Popup() {
-  const { folders, addFolder, renameFolder, deleteFolder } = useFolders();
+  const { folders, addFolder, renameFolder, reorderFolders, deleteFolder } = useFolders();
 
   return (
     <>
@@ -12,6 +12,7 @@ function Popup() {
         folders={folders}
         onAdd={addFolder}
         onEdit={renameFolder}
+        onReorder={reorderFolders}
         onDelete={deleteFolder}
       />
     </>

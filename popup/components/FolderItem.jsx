@@ -4,10 +4,17 @@ import Pencil from '../assets/pencil.svg?react';
 import Trash from '../assets/trash.svg?react';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
 const FolderItem = ({ id, name, onEdit, onDelete }) => {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(name);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
+
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
+
+  const style = { transform: CSS.Transform.toString(transform), transition };
 
   function handleKeyDown(e) {
     if (e.key === 'Enter') handleSave();
@@ -28,9 +35,9 @@ const FolderItem = ({ id, name, onEdit, onDelete }) => {
 
   return (
     <>
-      <div className='folder-item'>
+      <div className={`folder-item ${isDragging ? 'dragging' : ''}`} ref={setNodeRef} style={style}>
         <div className='folder-name'>
-          <Grab />
+          <Grab {...attributes} {...listeners} />
           {editing
             ? <input
                 autoFocus

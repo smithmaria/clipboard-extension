@@ -11,7 +11,8 @@
   border-top: 1px solid var(--light-gray);
   transition: .2s;
 
-  &:hover .folder-name svg {
+  &:hover .folder-name svg,
+  &.dragging .folder-name svg {
     visibility: visible;
   }
 
@@ -41,6 +42,8 @@
     width: 1rem;
     height: 1rem;
     stroke: var(--dark-gray);
+    outline: none !important;
+    cursor: grab;
   }
 }
 

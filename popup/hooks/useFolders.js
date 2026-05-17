@@ -33,6 +33,10 @@ export function useFolders() {
     );
   }
 
+  function reorderFolders(newOrder) {
+    setFolders(newOrder);
+  }
+
   function deleteFolder(folderId) {
     setFolders((prev) => prev.filter((f) => f.id !== folderId));
   }
@@ -75,7 +79,7 @@ export function useFolders() {
 
   return {
     folders,
-    addFolder, renameFolder, deleteFolder,
+    addFolder, renameFolder, reorderFolders, deleteFolder,
     addClip, updateClip, deleteClip,
   };
 }
