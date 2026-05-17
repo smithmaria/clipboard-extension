@@ -1,7 +1,7 @@
-const LongClip = ({ content }) => {
+const LongClip = ({ content, onClick }) => {
   return (
     <>
-      <div className='long-clip'>
+      <div className='long-clip' onClick={onClick}>
         {content}
       </div>
     </>

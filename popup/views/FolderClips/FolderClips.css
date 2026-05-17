@@ -75,6 +75,7 @@
   padding: 4px 8px;
   border: 1px solid var(--light-gray);
   border-radius: 10px;
+  white-space: pre-wrap;
   background-color: #ffffff;
   transition: .2s;
 

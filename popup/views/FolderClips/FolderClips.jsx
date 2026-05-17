@@ -36,8 +36,12 @@ const FolderClips = () => {
         </div>
       </div>
       <div className='long-clip-list'>
-        {folder.clips.map((clip) => 
-          <LongClip content={clip.content} />
+        {folder.clips.map((clip) =>
+          <LongClip 
+            key={clip.id} 
+            content={clip.content} 
+            onClick={() => navigator.clipboard.writeText(clip.content)} 
+          />
         )}
       </div>
     </>
