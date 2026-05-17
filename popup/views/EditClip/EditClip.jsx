@@ -2,7 +2,7 @@ import './EditClip.css'
 import CaretLeft from '../../assets/caret-left.svg?react'
 import { useNav } from '../../hooks/useNav'
 import { useFolders } from '../../hooks/useFolders'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const EditClip = ({ isCreate }) => {
   const { nav, setNav } = useNav();
@@ -13,6 +13,14 @@ const EditClip = ({ isCreate }) => {
     : null;
 
   const [content, setContent] = useState(existingClip?.content ?? '');
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      const el = textareaRef.current;
+      el.selectionStart = el.selectionEnd = el.value.length;
+    }
+  }, []);
 
   function handleSave () {
     if (!content.trim()) return;
@@ -41,6 +49,7 @@ const EditClip = ({ isCreate }) => {
         <label>Clip</label>
         <textarea
           autoFocus
+          ref={textareaRef}
           className='clip-textarea'
           placeholder='Clip'
           value={content}
