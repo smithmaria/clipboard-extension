@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './FolderList.css'
 import Folder from '../../assets/folder.svg?react'
-import FolderItem from '../../components/FolderItem';
+import FolderItem from './components/FolderItem';
 
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy, arrayMove } from

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import Grab from '../assets/grab-dots.svg?react'
-import Pencil from '../assets/pencil.svg?react';
-import Trash from '../assets/trash.svg?react';
-import DeleteConfirmationModal from './DeleteConfirmationModal';
+import Grab from '../../../assets/grab-dots.svg?react'
+import Pencil from '../../../assets/pencil.svg?react';
+import Trash from '../../../assets/trash.svg?react';
+import DeleteConfirmationModal from '../../../components/DeleteConfirmationModal';
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
