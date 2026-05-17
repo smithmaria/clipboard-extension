@@ -1,8 +1,28 @@
+import { useState } from 'react';
 import './FolderList.css'
 import Folder from '../assets/folder.svg?react'
 import FolderItem from '../components/FolderItem';
 
-const FolderList = ({ folders }) => {
+const FolderList = ({ folders, onAdd, onEdit }) => {
+  const [adding, setAdding] = useState(false);
+  const [newName, setNewName] = useState('');
+
+  function handleSave() {
+    if (newName.trim()) onAdd?.(newName.trim());
+      setNewName('');
+      setAdding(false);
+  }
+
+  function handleCancel() {
+    setNewName('');
+    setAdding(false);
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') handleSave();
+    if (e.key === 'Escape') handleCancel();
+  }
+
   return (
     <>
       <div className='popup-header'>
@@ -15,12 +35,29 @@ const FolderList = ({ folders }) => {
         {folders.map((folder) => (
           <FolderItem
             key={folder.id}
+            id={folder.id}
             name={folder.name}
+            onEdit={onEdit}
           />
         ))}
-        <div className='add-folder'>
-          + Add new folder
-        </div>
+        {adding
+          ? <div className='folder-item'>
+              <input
+                autoFocus
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder='Folder name'
+              />
+              <div className='folder-actions'>
+                <button onClick={handleCancel}>Cancel</button>
+                <button onClick={handleSave}>Save</button>
+              </div>
+            </div>
+          : <div className='add-folder' onClick={() => setAdding(true)}>
+              + Add new folder
+            </div>
+        }
       </div>
     </>
   )
