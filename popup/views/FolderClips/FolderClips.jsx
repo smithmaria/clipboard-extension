@@ -34,6 +34,9 @@ const FolderClips = () => {
           <LayoutToggle />
         </div>
       </div>
+      <div>
+        {/* {folder.clips.map((clip) => <div>{clip.content}</div>)} */}
+      </div>
     </>
   )
 }
