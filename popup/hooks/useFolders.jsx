@@ -21,7 +21,13 @@ export function FoldersProvider({ children }) {
 
   // FOLDER ACTIONS
   function addFolder(name) {
-    setFolders((prev) => [...prev, { id: uuidv4(), name, clips: [] }]);
+    setFolders((prev) => [...prev, { id: uuidv4(), name, clips: [], layout: 'list' }]);
+  }
+
+  function setFolderLayout(folderId, layout) {
+    setFolders((prev) =>
+      prev.map((f) => (f.id === folderId ? { ...f, layout } : f))
+    );
   }
 
   function renameFolder(folderId, newName) {
@@ -71,7 +77,7 @@ export function FoldersProvider({ children }) {
   return (
     <FoldersContext.Provider value={{
       folders,
-      addFolder, renameFolder, reorderFolders, deleteFolder,
+      addFolder, renameFolder, reorderFolders, deleteFolder, setFolderLayout,
       addClip, updateClip, deleteClip,
     }}>
       {children}

@@ -1,6 +1,6 @@
-const LongClip = ({ content, onClick, deleting, onDelete }) => {
+const ShortClip = ({ content, onClick, deleting, onDelete }) => {
   return (
-    <div className='clip long' onClick={onClick}>
+    <div className='clip short' onClick={onClick}>
       {deleting && (
         <div className='clip-delete' onClick={(e) => { e.stopPropagation(); onDelete(); }}>
           ×
@@ -11,4 +11,4 @@ const LongClip = ({ content, onClick, deleting, onDelete }) => {
   )
 }
 
-export default LongClip;
+export default ShortClip;

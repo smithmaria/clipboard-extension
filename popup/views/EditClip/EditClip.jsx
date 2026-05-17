@@ -8,11 +8,11 @@ const EditClip = ({ isCreate }) => {
   const { nav, setNav } = useNav();
   const { folders, addClip, updateClip } = useFolders();
 
-  const [content, setContent] = useState(existingClip?.content ?? '');
-
   const existingClip = !isCreate
     ? folders.find(f => f.id === nav.folderId)?.clips.find(c => c.id === nav.clipId)
     : null;
+
+  const [content, setContent] = useState(existingClip?.content ?? '');
 
   function handleSave () {
     if (!content.trim()) return;
