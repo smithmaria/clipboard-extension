@@ -70,8 +70,15 @@
     stroke: var(--dark-gray);
   }
 
+  &:first-child:hover path, &:first-child.active path {
+    stroke: var(--darker-gray);
+  }
+
   &:nth-child(2) {
     fill: var(--dark-gray);
+    &:hover, &.active {
+      fill: var(--darker-gray);
+    }
   }
 
   &.active {
