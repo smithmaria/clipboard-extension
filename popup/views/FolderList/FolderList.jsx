@@ -11,7 +11,7 @@ import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-ki
 const FolderList = () => {
   const { setNav } = useNav();
   const { folders, addFolder, reorderFolders } = useFolders();
-  const [adding, setAdding] = useState(false);
+  const [activeEdit, setActiveEdit] = useState(null); // null | 'new' | folderId
   const [newName, setNewName] = useState('');
 
   function handleDragEnd(event) {
@@ -26,12 +26,12 @@ const FolderList = () => {
   function handleSave() {
     if (newName.trim()) addFolder(newName.trim());
     setNewName('');
-    setAdding(false);
+    setActiveEdit(null);
   }
 
   function handleCancel() {
     setNewName('');
-    setAdding(false);
+    setActiveEdit(null);
   }
 
   function handleKeyDown(e) {
@@ -62,12 +62,15 @@ const FolderList = () => {
                 key={folder.id}
                 id={folder.id}
                 name={folder.name}
+                isEditing={activeEdit === folder.id}
+                onStartEdit={() => setActiveEdit(folder.id)}
+                onCancelEdit={() => setActiveEdit(null)}
                 onSelect={(folderId) => setNav({ view: 'folderClips', folderId, clipId: null })}
               />
             ))}
           </SortableContext>
         </DndContext>
-        {adding
+        {activeEdit === 'new'
           ? <div className='folder-item'>
               <div className='folder-name'>
                 <input
@@ -83,7 +86,7 @@ const FolderList = () => {
                 <button className='folder-save' onClick={handleSave}>Save</button>
               </div>
             </div>
-          : <div className='add-folder' onClick={() => setAdding(true)}>
+          : <div className='add-folder' onClick={() => setActiveEdit('new')}>
               + Add new folder
             </div>
         }

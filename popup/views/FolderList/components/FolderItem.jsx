@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Grab from '../../../assets/grab-dots.svg?react'
 import Pencil from '../../../assets/pencil.svg?react';
 import Trash from '../../../assets/trash.svg?react';
@@ -8,11 +8,14 @@ import { useFolders } from '../../../hooks/useFolders';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-const FolderItem = ({ id, name, onSelect }) => {
+const FolderItem = ({ id, name, isEditing, onStartEdit, onCancelEdit, onSelect }) => {
   const { renameFolder, deleteFolder } = useFolders();
-  const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(name);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
+
+  useEffect(() => {
+    if (!isEditing) setValue(name);
+  }, [isEditing, name]);
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
 
@@ -20,13 +23,13 @@ const FolderItem = ({ id, name, onSelect }) => {
 
   function handleKeyDown(e) {
     if (e.key === 'Enter') handleSave();
-    if (e.key === 'Escape') setEditing(false);
+    if (e.key === 'Escape') onCancelEdit();
   }
 
   function handleSave() {
     if(value.trim()) {
       renameFolder(id, value);
-      setEditing(false);
+      onCancelEdit();
     }
   }
 
@@ -38,14 +41,14 @@ const FolderItem = ({ id, name, onSelect }) => {
   return (
     <>
       <div
-        className={`folder-item ${isDragging ? 'dragging' : ''}`} 
+        className={`folder-item ${isDragging ? 'dragging' : ''}`}
         ref={setNodeRef}
-        onClick={() => !editing && onSelect?.(id)}
+        onClick={() => !isEditing && onSelect?.(id)}
         style={style}
       >
         <div className='folder-name'>
           <Grab {...attributes} {...listeners} />
-          {editing
+          {isEditing
             ? <input
                 autoFocus
                 value={value}
@@ -56,23 +59,23 @@ const FolderItem = ({ id, name, onSelect }) => {
           }
         </div>
         <div className='folder-actions'>
-          {editing
+          {isEditing
             ? <>
                 <button
                   className='folder-cancel'
-                  onClick={() => { setValue(name); setEditing(false); }}
+                  onClick={onCancelEdit}
                 >
                     Cancel
                 </button>
-                <button 
+                <button
                   className='folder-save'
                   onClick={() => handleSave()}
                 >
                   Save
                 </button>
               </>
-            : <>              
-                <Pencil onClick={(e) => { e.stopPropagation(); setEditing(true); }} />
+            : <>
+                <Pencil onClick={(e) => { e.stopPropagation(); onStartEdit(); }} />
                 <Trash onClick={(e) => { e.stopPropagation(); setConfirmingDelete(true); }}/>
               </>
           }
