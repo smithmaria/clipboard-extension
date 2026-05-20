@@ -69,15 +69,17 @@ const FolderList = () => {
         </DndContext>
         {adding
           ? <div className='folder-item'>
-              <input
-                autoFocus
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder='Name'
-              />
+              <div className='folder-name'>
+                <input
+                  autoFocus
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder='Name'
+                />
+              </div>
               <div className='folder-actions'>
-                <button onClick={handleCancel}>Cancel</button>
+                <button className='folder-cancel' onClick={handleCancel}>Cancel</button>
                 <button className='folder-save' onClick={handleSave}>Save</button>
               </div>
             </div>

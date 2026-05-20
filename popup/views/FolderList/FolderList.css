@@ -19,6 +19,7 @@
   input {
     margin: -5px 0 -5px -5px;
     padding-left: 4px;
+    width: 100%;
   }
 
   input:focus-visible {
@@ -41,10 +42,6 @@
     stroke: var(--dark-gray);
     outline: none !important;
     cursor: grab;
-  }
-
-  input {
-    width: 100%;
   }
 }
 
