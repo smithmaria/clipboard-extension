@@ -6,7 +6,7 @@ import LayoutToggle from './components/LayoutToggle'
 import LongClip from './components/LongClip'
 import ShortClip from './components/ShortClip'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useNav } from '../../hooks/useNav'
 import { useFolders } from '../../hooks/useFolders'
 
@@ -18,11 +18,13 @@ const FolderClips = () => {
 
   const [deleting, setDeleting] = useState(false);
   const [copiedClipId, setCopiedClipId] = useState(null);
+  const copyTimeoutRef = useRef(null);
 
   const handleCopy = (clip) => {
     navigator.clipboard.writeText(clip.content);
     setCopiedClipId(clip.id);
-    setTimeout(() => setCopiedClipId(null), 1500);
+    clearTimeout(copyTimeoutRef.current);
+    copyTimeoutRef.current = setTimeout(() => setCopiedClipId(null), 1500);
   };
 
   return (
