@@ -16,7 +16,10 @@ const FolderClips = () => {
   const folder = folders.find(f => f.id === nav.folderId);
   const layout = folder.layout ?? 'list';
 
+  const hasClips = folder.clips.length > 0;
+
   const [deleting, setDeleting] = useState(false);
+  const effectiveDeleting = deleting && hasClips;
   const [copiedClipId, setCopiedClipId] = useState(null);
   const copyTimeoutRef = useRef(null);
 
@@ -39,52 +42,56 @@ const FolderClips = () => {
         </div>
         <div className='clip-action-container'>
           <div
-            className={`clip-action plus ${deleting ? 'disabled' : ''}`}
-            onClick={() => !deleting && setNav({ view: 'createClip', folderId: folder.id, clipId: null })}>
+            className={`clip-action plus ${effectiveDeleting ? 'disabled' : ''}`}
+            onClick={() => !effectiveDeleting && setNav({ view: 'createClip', folderId: folder.id, clipId: null })}>
             <Plus />
           </div>
-          <div className={`clip-action pencil ${deleting ? 'active' : ''}`} onClick={() => setDeleting(d => !d)}>
+          <div
+            className={`clip-action pencil ${effectiveDeleting ? 'active' : ''} ${!hasClips ? 'disabled' : ''}`}
+            onClick={() => hasClips && setDeleting(d => !d)}>
             <Pencil />
           </div>
           <LayoutToggle layout={layout} setLayout={(l) => setFolderLayout(folder.id, l)} />
         </div>
       </div>
       <div className='clip-container'>
-        {layout === 'list' 
-          ? (      
-            <div className='clip-list'>
-              {folder.clips.map((clip) =>
-                <LongClip
-                  key={clip.id}
-                  content={clip.content}
-                  deleting={deleting}
-                  copied={copiedClipId === clip.id}
-                  onDelete={() => deleteClip(folder.id, clip.id)}
-                  onClick={() => deleting
-                    ? setNav({ view: 'editClip', folderId: folder.id, clipId: clip.id })
-                    : handleCopy(clip)
-                  }
-                />
-              )}
-            </div>
+        {!hasClips
+          ? <p className='clips-empty'>No clips yet. Hit + to add one.</p>
+          : layout === 'list'
+            ? (
+              <div className='clip-list'>
+                {folder.clips.map((clip) =>
+                  <LongClip
+                    key={clip.id}
+                    content={clip.content}
+                    deleting={effectiveDeleting}
+                    copied={copiedClipId === clip.id}
+                    onDelete={() => deleteClip(folder.id, clip.id)}
+                    onClick={() => effectiveDeleting
+                      ? setNav({ view: 'editClip', folderId: folder.id, clipId: clip.id })
+                      : handleCopy(clip)
+                    }
+                  />
+                )}
+              </div>
             )
-          : (
-            <div className='clip-grid'>
-              {folder.clips.map((clip) =>
-                <ShortClip
-                  key={clip.id}
-                  content={clip.content}
-                  deleting={deleting}
-                  copied={copiedClipId === clip.id}
-                  onDelete={() => deleteClip(folder.id, clip.id)}
-                  onClick={() => deleting
-                    ? setNav({ view: 'editClip', folderId: folder.id, clipId: clip.id })
-                    : handleCopy(clip)
-                  }
-                />
-              )}
-        </div>
-          )
+            : (
+              <div className='clip-grid'>
+                {folder.clips.map((clip) =>
+                  <ShortClip
+                    key={clip.id}
+                    content={clip.content}
+                    deleting={effectiveDeleting}
+                    copied={copiedClipId === clip.id}
+                    onDelete={() => deleteClip(folder.id, clip.id)}
+                    onClick={() => effectiveDeleting
+                      ? setNav({ view: 'editClip', folderId: folder.id, clipId: clip.id })
+                      : handleCopy(clip)
+                    }
+                  />
+                )}
+              </div>
+            )
         }
       </div>
     </>
