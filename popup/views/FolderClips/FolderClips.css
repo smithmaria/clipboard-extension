@@ -138,6 +138,52 @@
   }
 }
 
+.clip-copied {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 100%;
+  border: 1px solid var(--light-gray);
+  /* background-color: var(--green); */
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  animation: copy-success-appear 150ms ease-out forwards;
+
+  svg {
+    width: 11px;
+    height: 11px;
+
+    path {
+      /* stroke: #ffffff; */
+      stroke: var(--green);
+      stroke-dasharray: 15;
+      stroke-dashoffset: 15;
+      animation: checkmark-draw 300ms ease-out 100ms forwards;
+    }
+  }
+}
+
+@keyframes copy-success-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes checkmark-draw {
+  from { stroke-dashoffset: 15; }
+  to { stroke-dashoffset: 0; }
+}
+
 .clip-list {
   display: flex;
   flex-direction: column;

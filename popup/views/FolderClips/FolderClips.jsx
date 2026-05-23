@@ -17,6 +17,13 @@ const FolderClips = () => {
   const layout = folder.layout ?? 'list';
 
   const [deleting, setDeleting] = useState(false);
+  const [copiedClipId, setCopiedClipId] = useState(null);
+
+  const handleCopy = (clip) => {
+    navigator.clipboard.writeText(clip.content);
+    setCopiedClipId(clip.id);
+    setTimeout(() => setCopiedClipId(null), 1500);
+  };
 
   return (
     <>
@@ -49,10 +56,11 @@ const FolderClips = () => {
                   key={clip.id}
                   content={clip.content}
                   deleting={deleting}
+                  copied={copiedClipId === clip.id}
                   onDelete={() => deleteClip(folder.id, clip.id)}
                   onClick={() => deleting
                     ? setNav({ view: 'editClip', folderId: folder.id, clipId: clip.id })
-                    : navigator.clipboard.writeText(clip.content)
+                    : handleCopy(clip)
                   }
                 />
               )}
@@ -65,10 +73,11 @@ const FolderClips = () => {
                   key={clip.id}
                   content={clip.content}
                   deleting={deleting}
+                  copied={copiedClipId === clip.id}
                   onDelete={() => deleteClip(folder.id, clip.id)}
                   onClick={() => deleting
                     ? setNav({ view: 'editClip', folderId: folder.id, clipId: clip.id })
-                    : navigator.clipboard.writeText(clip.content)
+                    : handleCopy(clip)
                   }
                 />
               )}
