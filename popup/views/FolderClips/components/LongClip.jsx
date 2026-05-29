@@ -1,4 +1,6 @@
-const LongClip = ({ content, onClick, deleting, onDelete, copied }) => {
+import { renderLatex } from '../../../utils/latex'
+
+const LongClip = ({ content, isLatex, onClick, deleting, onDelete, copied }) => {
   return (
     <div className='clip long' onClick={onClick}>
       {deleting && (
@@ -13,7 +15,10 @@ const LongClip = ({ content, onClick, deleting, onDelete, copied }) => {
           </svg>
         </div>
       )}
-      {content}
+      {isLatex
+        ? <div className='latex-preview-clip' dangerouslySetInnerHTML={{ __html: renderLatex(content) }} />
+        : content
+      }
     </div>
   )
 }

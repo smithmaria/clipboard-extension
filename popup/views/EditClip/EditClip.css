@@ -6,6 +6,10 @@
     margin-left: 8px;
     margin-bottom: 4px;
   }
+  
+  textarea {
+    margin-bottom: 8px;
+  }
 }
 
 .clip-textarea {
@@ -22,6 +26,44 @@
   &:focus-visible {
     outline: none;
   }
+}
+
+.latex-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 100%;
+  background-color: var(--lighter-gray);
+  color: var(--dark-gray);
+  font-size: 1.1rem;
+  padding-bottom: 4px;
+  padding-left: 8px;
+  cursor: pointer;
+  transition: .2s;
+
+  &:hover {
+    filter: brightness(.9);
+  }
+
+  &.active {
+    background-color: var(--blue);
+    color: white;
+  }
+}
+
+.latex-preview-label {
+  margin-top: 10px;
+}
+
+.latex-preview {
+  padding: 8px 12px;
+  border: 1px solid var(--light-gray);
+  border-radius: 10px;
+  background-color: #ffffff;
+  overflow-x: auto;
+  min-height: 2.5rem;
 }
 
 .edit-actions {

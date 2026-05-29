@@ -1,4 +1,6 @@
-const ShortClip = ({ content, onClick, deleting, onDelete, copied }) => {
+import { renderLatex } from '../../../utils/latex'
+
+const ShortClip = ({ content, isLatex, onClick, deleting, onDelete, copied }) => {
   return (
     <div className='clip short' onClick={onClick}>
       {deleting && (
@@ -13,7 +15,10 @@ const ShortClip = ({ content, onClick, deleting, onDelete, copied }) => {
           </svg>
         </div>
       )}
-      {content}
+      {isLatex
+        ? <div className='latex-preview-clip' dangerouslySetInnerHTML={{ __html: renderLatex(content) }} />
+        : content
+      }
     </div>
   )
 }

@@ -2,6 +2,8 @@ import './EditClip.css'
 import CaretLeft from '../../assets/caret-left.svg?react'
 import { useNav } from '../../hooks/useNav'
 import { useFolders } from '../../hooks/useFolders'
+import { getStorage, setStorage } from '../../hooks/useStorage'
+import { renderLatex } from '../../utils/latex'
 import { useState, useEffect, useRef } from 'react'
 
 const EditClip = ({ isCreate }) => {
@@ -13,6 +15,7 @@ const EditClip = ({ isCreate }) => {
     : null;
 
   const [content, setContent] = useState(existingClip?.content ?? '');
+  const [isLatex, setIsLatex] = useState(existingClip?.isLatex ?? false);
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -25,13 +28,20 @@ const EditClip = ({ isCreate }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (!isCreate) return;
+    getStorage('latexMode').then(({ latexMode }) => {
+      if (latexMode !== undefined) setIsLatex(latexMode);
+    });
+  }, []);
+
   function handleSave () {
     if (!content.trim()) return;
 
     if (isCreate) {
-      addClip(nav.folderId, content);
+      addClip(nav.folderId, content, isLatex);
     } else {
-      updateClip(nav.folderId, nav.clipId, { content });
+      updateClip(nav.folderId, nav.clipId, { content, isLatex });
     }
 
     setNav({ view: 'folderClips', folderId: nav.folderId, clipId: null });
@@ -41,20 +51,31 @@ const EditClip = ({ isCreate }) => {
     <>
       <div className='popup-header'>
         <div className='header-title'>
-          <CaretLeft 
+          <CaretLeft
             className='header-return'
-            onClick={() => {setNav({ view: 'folderClips', folderId: nav.folderId, clipId: null })}} 
+            onClick={() => {setNav({ view: 'folderClips', folderId: nav.folderId, clipId: null })}}
           />
           <h1>{isCreate ? 'Create' : 'Edit'} Clip</h1>
         </div>
+        <button
+          className={`latex-toggle ${isLatex ? 'active' : ''}`}
+          onClick={() => {
+            const next = !isLatex;
+            setIsLatex(next);
+            if (isCreate) setStorage({ latexMode: next });
+          }}
+          title="Toggle LaTeX mode"
+        >
+          ∑
+        </button>
       </div>
       <div className='input-container'>
-        <label>Clip</label>
+        <label>{isLatex ? 'LaTeX' : 'Clip'}</label>
         <textarea
           autoFocus
           ref={textareaRef}
           className='clip-textarea'
-          placeholder='Clip'
+          placeholder={isLatex ? 'e.g. \\frac{1}{2}' : 'Clip'}
           value={content}
           rows={1}
           onKeyDown={(e) => {
@@ -70,6 +91,15 @@ const EditClip = ({ isCreate }) => {
             e.target.style.overflow = e.target.scrollHeight >= 400 ? 'auto' : 'hidden';
           }}
         />
+        {isLatex && (
+          <>
+            <label>LaTeX Preview</label>
+            <div
+              className='latex-preview'
+              dangerouslySetInnerHTML={{ __html: renderLatex(content) }}
+            />
+          </>
+        )}
       </div>
       <div className='edit-actions'>
         <button>Cancel</button>

@@ -64,6 +64,7 @@ const FolderClips = () => {
                   <LongClip
                     key={clip.id}
                     content={clip.content}
+                    isLatex={clip.isLatex}
                     deleting={effectiveDeleting}
                     copied={copiedClipId === clip.id}
                     onDelete={() => deleteClip(folder.id, clip.id)}
@@ -81,6 +82,7 @@ const FolderClips = () => {
                   <ShortClip
                     key={clip.id}
                     content={clip.content}
+                    isLatex={clip.isLatex}
                     deleting={effectiveDeleting}
                     copied={copiedClipId === clip.id}
                     onDelete={() => deleteClip(folder.id, clip.id)}

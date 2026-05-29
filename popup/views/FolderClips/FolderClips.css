@@ -207,3 +207,13 @@
 .clip.short {
   width: fit-content;
 }
+
+.latex-preview-clip {
+  pointer-events: none;
+  overflow: hidden;
+  max-height: 4rem;
+
+  .katex-display {
+    margin: 0;
+  }
+}
