@@ -65,6 +65,10 @@
     cursor: pointer;
   }
 
+  svg:last-child:hover {
+    stroke: var(--red);
+  }
+
   button {
     margin-left: .5rem;
     padding: 3px 10px;
